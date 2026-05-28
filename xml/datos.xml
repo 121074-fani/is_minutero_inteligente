@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<minutas>
+
+    <minuta id="1">
+
+        <datos_reunion>
+            <lugar>Sala de juntas</lugar>
+            <fecha>2026-03-10</fecha>
+            <hora_inicio>10:00</hora_inicio>
+            <correo_responsable>responsable@empresa.com</correo_responsable>
+            <password>******</password>
+            <tipo_reunion>Presencial</tipo_reunion>
+            <area_participante>TI</area_participante>
+        </datos_reunion>
+
+        <temas_tratados>
+
+            <tema id="1">
+                <titulo>Revisión del proyecto</titulo>
+                <descripcion>Análisis del avance del sistema</descripcion>
+            </tema>
+
+            <tema id="2">
+                <titulo>Presupuesto</titulo>
+                <descripcion>Evaluación de costos del siguiente trimestre</descripcion>
+            </tema>
+
+            <tema id="3">
+                <titulo>Asignación de tareas</titulo>
+                <descripcion>Distribución de actividades del equipo</descripcion>
+            </tema>
+
+        </temas_tratados>
+
+        <acuerdos>
+
+            <acuerdo id="1">
+                <responsable>Juan Pérez</responsable>
+                <actividad>Entregar reporte final</actividad>
+                <fecha_compromiso>2026-03-15</fecha_compromiso>
+            </acuerdo>
+
+            <acuerdo id="2">
+                <responsable>María López</responsable>
+                <actividad>Actualizar documentación</actividad>
+                <fecha_compromiso>2026-03-18</fecha_compromiso>
+            </acuerdo>
+
+        </acuerdos>
+
+        <proxima_reunion>
+            <fecha>2026-03-20</fecha>
+            <hora>11:00</hora>
+        </proxima_reunion>
+
+    </minuta>
+
+</minutas>

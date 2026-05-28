@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<usuarios xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="usuarios.xsd">
+    <usuario>
+        <rfc>PERJ900101ABC</rfc>
+        <curp>PERJ900101HDFRRN01</curp>
+        <nombre>Juan</nombre>
+        <apellido_paterno>Pérez</apellido_paterno>
+        <apellido_materno>García</apellido_materno>
+        <direccion>
+            <calle>Av. Reforma</calle>
+            <numero>123</numero>
+            <ciudad>Ciudad de México</ciudad>
+            <estado>CDMX</estado>
+            <codigo_postal>06000</codigo_postal>
+        </direccion>
+        <telefono>5512345678</telefono>
+        <fecha_nacimiento>1990-01-01</fecha_nacimiento>
+    </usuario>
+    
+    <usuario>
+        <rfc>LOPA850520XYZ</rfc>
+        <curp>LOPA850520MDFLRS02</curp>
+        <nombre>Ana María</nombre>
+        <apellido_paterno>López</apellido_paterno>
+        <apellido_materno>Alarcón</apellido_materno>
+        <direccion>
+            <calle>Calle Juárez</calle>
+            <numero>45</numero>
+            <ciudad>Guadalajara</ciudad>
+            <estado>Jalisco</estado>
+            <codigo_postal>44100</codigo_postal>
+        </direccion>
+        <telefono>5598765432</telefono>
+        <fecha_nacimiento>1985-05-20</fecha_nacimiento>
+    </usuario>
+</usuarios>

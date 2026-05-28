@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Elemento raíz -->
+    <xs:element name="archivo_minutas">
+        <xs:complexType>
+            <xs:sequence>
+
+                <!-- USUARIOS -->
+                <xs:element name="usuarios">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="usuario" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+
+                                        <xs:element name="rfc">
+                                            <xs:simpleType>
+                                                <xs:restriction base="xs:string">
+                                                    <xs:pattern value="[A-Z]{4}[0-9]{6}[A-Z0-9]{3}"/>
+                                                </xs:restriction>
+                                            </xs:simpleType>
+                                        </xs:element>
+
+                                        <xs:element name="curp">
+                                            <xs:simpleType>
+                                                <xs:restriction base="xs:string">
+                                                    <xs:pattern value="[A-Z]{4}[0-9]{6}[HM][A-Z]{5}[A-Z0-9]{2}"/>
+                                                </xs:restriction>
+                                            </xs:simpleType>
+                                        </xs:element>
+
+                                        <xs:element name="nombre" type="xs:string"/>
+                                        <xs:element name="apellido_paterno" type="xs:string"/>
+                                        <xs:element name="apellido_materno" type="xs:string"/>
+
+                                        <!-- Dirección -->
+                                        <xs:element name="direccion">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="calle" type="xs:string"/>
+                                                    <xs:element name="numero" type="xs:string"/>
+                                                    <xs:element name="ciudad" type="xs:string"/>
+                                                    <xs:element name="estado" type="xs:string"/>
+                                                    <xs:element name="codigo_postal" type="xs:string"/>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+
+                                        <!-- Teléfono -->
+                                        <xs:element name="telefono">
+                                            <xs:simpleType>
+                                                <xs:restriction base="xs:string">
+                                                    <xs:pattern value="[0-9]{10}"/>
+                                                </xs:restriction>
+                                            </xs:simpleType>
+                                        </xs:element>
+
+                                        <xs:element name="fecha_nacimiento" type="xs:date"/>
+
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- FORMULARIO SIMULADO -->
+                <xs:element name="formulario_simulado">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="texto" type="xs:string"/>
+                            <xs:element name="email" type="xs:string"/>
+                            <xs:element name="password" type="xs:string"/>
+                            <xs:element name="radio" type="xs:string"/>
+                            <xs:element name="checkbox" type="xs:string"/>
+                            <xs:element name="select" type="xs:string"/>
+                            <xs:element name="textarea" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

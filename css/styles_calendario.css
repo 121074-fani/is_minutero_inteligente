@@ -1,0 +1,82 @@
+        :root {
+            --primary: #9b59b6;
+            --bg-body: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body) !important;
+            color: #2d3748;
+        }
+
+        /* Grid de 7 columnas personalizado */
+        .row-cols-lg-7 > * {
+            flex: 0 0 auto;
+            width: 14.2857%;
+        }
+
+        /* Estilo de Tarjetas */
+        .card-dia {
+            min-height: 120px;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .card-dia:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+            z-index: 2;
+        }
+
+        .num-dia {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #718096;
+            margin-bottom: 8px;
+            text-transform: capitalize;
+        }
+
+        /* Vista Semanal Expandida */
+        .min-height-semana {
+            min-height: 450px !important;
+        }
+
+        /* Eventos e Ítems */
+        .evento-item {
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            border-left: 4px solid;
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: opacity 0.2s;
+        }
+
+        .evento-item:hover {
+            opacity: 0.8;
+            text-decoration: line-through; /* Visual para indicar borrado */
+        }
+
+        /* Paleta de Colores por Responsable */
+        .color-Juan { background: #ebf4ff; color: #2b6cb0; border-color: #3182ce; }
+        .color-Ana { background: #faf5ff; color: #6b46c1; border-color: #805ad5; }
+        .color-Carlos { background: #f0fff4; color: #2f855a; border-color: #38a169; }
+
+        /* Botones y Filtros */
+        .btn-check:checked + .btn-outline-primary { background-color: var(--primary); }
+        
+        @media (max-width: 992px) {
+            .row-cols-lg-7 > * { width: 33.33%; }
+        }
+        @media (max-width: 576px) {
+            .row-cols-lg-7 > * { width: 100%; }
+        }

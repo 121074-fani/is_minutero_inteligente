@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firmar Minuta - Minutero Inteligente</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background:linear-gradient(135deg,#4a235a 0%,#9b59b6 100%); min-height:100vh; font-family:'Segoe UI',sans-serif; display:flex; align-items:center; justify-content:center; padding:20px; }
+        .firma-card { background:white; border-radius:24px; max-width:520px; width:100%; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,.3); }
+        .card-header-firma { background:linear-gradient(135deg,#4a235a,#9b59b6); padding:28px 32px; color:white; }
+        .card-header-firma h2 { margin:0; font-size:1.4rem; font-weight:700; }
+        .card-header-firma p  { margin:8px 0 0; opacity:.8; font-size:.9rem; }
+        .card-body-firma { padding:28px 32px; }
+        /* Steps */
+        .steps { display:flex; justify-content:space-between; margin-bottom:28px; position:relative; }
+        .steps::before { content:''; position:absolute; top:16px; left:12%; right:12%; height:2px; background:#e8daef; z-index:0; }
+        .step { display:flex; flex-direction:column; align-items:center; gap:6px; z-index:1; }
+        .step-circle { width:32px; height:32px; border-radius:50%; border:2px solid #e8daef; background:white; display:flex; align-items:center; justify-content:center; font-size:.8rem; font-weight:700; color:#aaa; transition:all .3s; }
+        .step.active   .step-circle { border-color:#9b59b6; background:#9b59b6; color:white; }
+        .step.done     .step-circle { border-color:#27ae60; background:#27ae60; color:white; }
+        .step-label { font-size:.72rem; color:#aaa; font-weight:600; text-align:center; }
+        .step.active .step-label { color:#9b59b6; }
+        .step.done   .step-label { color:#27ae60; }
+        /* Info box */
+        .info-reunion { background:#f9f5fc; border-radius:12px; padding:16px 20px; margin-bottom:20px; border-left:4px solid #9b59b6; }
+        .info-reunion .label { font-size:.75rem; color:#888; text-transform:uppercase; letter-spacing:.5px; }
+        .info-reunion .valor { font-size:.95rem; font-weight:600; color:#4a235a; }
+        /* Cámara */
+        .cam-container { background:#1a1a2e; border-radius:12px; overflow:hidden; position:relative; margin-bottom:16px; }
+        #camVideo { width:100%; display:block; }
+        .cam-overlay { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; background:rgba(74,35,90,.85); color:white; }
+        .cam-overlay .icon { font-size:3rem; margin-bottom:12px; }
+        .cam-badge { position:absolute; top:10px; right:10px; background:rgba(231,76,60,.9); color:white; font-size:.72rem; padding:3px 10px; border-radius:20px; font-weight:700; }
+        .cam-badge.ok { background:rgba(39,174,96,.9); }
+        /* Botones */
+        .btn-firma { background:linear-gradient(135deg,#4a235a,#9b59b6); color:white; border:none; padding:13px 28px; border-radius:25px; font-weight:700; font-size:1rem; width:100%; transition:all .2s; }
+        .btn-firma:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(155,89,182,.4); }
+        .btn-firma:disabled { opacity:.5; transform:none; box-shadow:none; }
+        /* Estados */
+        #panelCargando, #panelExpirado, #panelYaFirmado, #panelFirmado { display:none; }
+        .estado-icon { font-size:4rem; margin-bottom:16px; }
+        .token-display { font-size:2rem; font-weight:700; letter-spacing:8px; color:#4a235a; background:#f5eef8; padding:16px; border-radius:12px; text-align:center; margin:16px 0; }
+    </style>
+</head>
+<body>
+<div class="firma-card">
+    <div class="card-header-firma">
+        <h2><i class="fas fa-file-signature me-2"></i>Firma de Acuse</h2>
+        <p>Minutero Inteligente · Instituto Tecnológico de Morelia</p>
+    </div>
+    <div class="card-body-firma">
+
+        <!-- Cargando -->
+        <div id="panelCargando" style="display:block; text-align:center; padding:30px 0;">
+            <i class="fas fa-spinner fa-spin fa-2x" style="color:#9b59b6;"></i>
+            <p class="mt-3 text-muted">Verificando token...</p>
+        </div>
+
+        <!-- Token expirado -->
+        <div id="panelExpirado">
+            <div class="text-center py-3">
+                <div class="estado-icon">⏰</div>
+                <h4 style="color:#e74c3c;">Token Expirado</h4>
+                <p class="text-muted">Este enlace de firma ya no es válido (límite de 72 horas). Contacta al responsable de la minuta para solicitar uno nuevo.</p>
+            </div>
+        </div>
+
+        <!-- Ya firmado -->
+        <div id="panelYaFirmado">
+            <div class="text-center py-3">
+                <div class="estado-icon">✅</div>
+                <h4 style="color:#27ae60;">Ya Firmado</h4>
+                <p class="text-muted">Tu firma ya fue registrada anteriormente para esta minuta.</p>
+            </div>
+        </div>
+
+        <!-- Formulario de firma -->
+        <div id="panelFirma">
+            <!-- Steps -->
+            <div class="steps">
+                <div class="step active" id="step1"><div class="step-circle">1</div><div class="step-label">Verificar</div></div>
+                <div class="step"        id="step2"><div class="step-circle">2</div><div class="step-label">Cámara</div></div>
+                <div class="step"        id="step3"><div class="step-circle">3</div><div class="step-label">Firmar</div></div>
+            </div>
+
+            <!-- Info de la reunión -->
+            <div class="info-reunion">
+                <div class="row g-2">
+                    <div class="col-6">
+                        <div class="label">Participante</div>
+                        <div class="valor" id="fi-nombre">—</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="label">Minuta #</div>
+                        <div class="valor" id="fi-id">—</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="label">Reunión</div>
+                        <div class="valor" id="fi-lugar">—</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="label">Fecha</div>
+                        <div class="valor" id="fi-fecha">—</div>
+                    </div>
+                    <div class="col-12">
+                        <div class="label">Válido hasta</div>
+                        <div class="valor" id="fi-expira" style="color:#e67e22;">—</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PASO 1: Verificar identidad con cámara -->
+            <div id="paso1">
+                <h6 class="fw-bold mb-3" style="color:#4a235a;"><i class="fas fa-camera me-2" style="color:#9b59b6;"></i>Verificación de Identidad</h6>
+                <div class="cam-container">
+                    <video id="camVideo" autoplay playsinline></video>
+                    <div class="cam-overlay" id="camOverlay">
+                        <div class="icon">📷</div>
+                        <p class="mb-3" style="font-size:.9rem;">Verificación facial requerida</p>
+                        <button class="btn btn-sm rounded-pill px-4" onclick="activarCamara()"
+                                style="background:#9b59b6;color:white;border:none;font-weight:600;">
+                            <i class="fas fa-camera me-2"></i>Activar Cámara
+                        </button>
+                    </div>
+                    <div class="cam-badge" id="camBadge">EN DESARROLLO</div>
+                </div>
+                <div id="camStatus" class="text-muted small mb-3" style="display:none;">
+                    <i class="fas fa-info-circle me-1" style="color:#9b59b6;"></i>
+                    Sistema de verificación facial en desarrollo. Puedes continuar sin verificación.
+                </div>
+                <button class="btn-firma" id="btnSiguiente" onclick="irPaso2()" style="display:none;">
+                    Continuar <i class="fas fa-arrow-right ms-2"></i>
+                </button>
+                <button class="btn btn-outline-secondary w-100 rounded-pill mt-2" onclick="irPaso2()" style="font-size:.88rem;">
+                    <i class="fas fa-forward me-2"></i>Continuar sin verificación facial
+                </button>
+            </div>
+
+            <!-- PASO 2: Confirmar y firmar -->
+            <div id="paso2" style="display:none;">
+                <h6 class="fw-bold mb-2" style="color:#4a235a;"><i class="fas fa-pen-nib me-2" style="color:#9b59b6;"></i>Confirmar Firma</h6>
+                <p class="text-muted small mb-3">Al hacer clic en "Registrar Firma" confirmas que:</p>
+                <ul class="small text-muted mb-4" style="padding-left:20px;">
+                    <li>Has recibido y leído la minuta de reunión.</li>
+                    <li>Eres la persona indicada en el documento.</li>
+                    <li>Tu firma queda registrada con fecha y hora.</li>
+                </ul>
+                <div id="camVerifBadge" style="display:none;" class="alert alert-success py-2 small mb-3">
+                    <i class="fas fa-check-circle me-1"></i>Cámara activada (verificación en desarrollo)
+                </div>
+                <button class="btn-firma" id="btnFirmar" onclick="registrarFirma()">
+                    <i class="fas fa-signature me-2"></i>Registrar Firma
+                </button>
+            </div>
+        </div>
+
+        <!-- Firma exitosa -->
+        <div id="panelFirmado">
+            <div class="text-center py-3">
+                <div class="estado-icon">🎉</div>
+                <h4 style="color:#27ae60;">¡Firma Registrada!</h4>
+                <p class="text-muted mb-3">Tu acuse de recibo ha sido registrado correctamente en el sistema.</p>
+                <div style="background:#f9f5fc;border-radius:12px;padding:16px;border-left:4px solid #27ae60;">
+                    <div style="font-size:.8rem;color:#888;">Firmado como</div>
+                    <div style="font-weight:700;color:#4a235a;" id="firmadoNombre">—</div>
+                    <div style="font-size:.8rem;color:#888;margin-top:4px;">Fecha y hora: <span id="firmadoFecha">—</span></div>
+                </div>
+                <p class="text-muted small mt-3">Puedes cerrar esta ventana.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+const params    = new URLSearchParams(window.location.search);
+const TOKEN     = params.get('token') || '';
+let   camaraOk  = false;
+let   datosToken = null;
+
+async function init() {
+    if (!TOKEN) { mostrar('panelExpirado'); return; }
+    mostrar('panelCargando');
+    try {
+        const res  = await fetch(`php/validar_firma.php?token=${TOKEN}`);
+        const data = await res.json();
+        if (!data.exito) {
+            if (data.ya_firmado) mostrar('panelYaFirmado');
+            else mostrar('panelExpirado');
+            return;
+        }
+        datosToken = data.datos;
+        // Rellenar info
+        document.getElementById('fi-nombre').textContent = data.datos.nombre;
+        document.getElementById('fi-id').textContent     = data.datos.id_minuta;
+        document.getElementById('fi-lugar').textContent  = data.datos.lugar;
+        document.getElementById('fi-fecha').textContent  = data.datos.fecha;
+        document.getElementById('fi-expira').textContent = new Date(data.datos.fecha_expiracion)
+            .toLocaleString('es-MX',{dateStyle:'medium',timeStyle:'short'});
+        mostrar('panelFirma');
+    } catch {
+        mostrar('panelExpirado');
+    }
+}
+
+async function activarCamara() {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({video:true});
+        document.getElementById('camVideo').srcObject = stream;
+        document.getElementById('camOverlay').style.display = 'none';
+        document.getElementById('camStatus').style.display  = 'block';
+        document.getElementById('camBadge').textContent = 'EN DESARROLLO';
+        document.getElementById('camBadge').classList.add('ok');
+        document.getElementById('btnSiguiente').style.display = 'block';
+        camaraOk = true;
+    } catch {
+        alert('No se pudo acceder a la cámara. Continúa sin verificación facial.');
+    }
+}
+
+function irPaso2() {
+    document.getElementById('paso1').style.display = 'none';
+    document.getElementById('paso2').style.display = 'block';
+    // Detener cámara si estaba activa
+    const video = document.getElementById('camVideo');
+    if (video.srcObject) { video.srcObject.getTracks().forEach(t => t.stop()); }
+    if (camaraOk) document.getElementById('camVerifBadge').style.display = 'block';
+    // Steps
+    document.getElementById('step1').classList.replace('active','done');
+    document.getElementById('step2').classList.add('active');
+}
+
+async function registrarFirma() {
+    const btn = document.getElementById('btnFirmar');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Registrando...';
+    try {
+        const res  = await fetch('php/validar_firma.php', {
+            method:'POST', headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({token: TOKEN, camara: camaraOk})
+        });
+        const data = await res.json();
+        if (data.exito) {
+            document.getElementById('firmadoNombre').textContent = data.nombre;
+            document.getElementById('firmadoFecha').textContent  = new Date().toLocaleString('es-MX');
+            document.getElementById('step2').classList.replace('active','done');
+            document.getElementById('step3').classList.add('active','done');
+            mostrar('panelFirmado');
+        } else {
+            alert('Error: ' + data.mensaje);
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-signature me-2"></i>Registrar Firma';
+        }
+    } catch {
+        alert('Error de conexión.'); btn.disabled=false;
+        btn.innerHTML='<i class="fas fa-signature me-2"></i>Registrar Firma';
+    }
+}
+
+function mostrar(id) {
+    ['panelCargando','panelExpirado','panelYaFirmado','panelFirma','panelFirmado']
+        .forEach(p => document.getElementById(p).style.display = p===id ? 'block' : 'none');
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

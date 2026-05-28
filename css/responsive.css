@@ -1,0 +1,290 @@
+/* ============================================================
+   responsive.css — Minutero Inteligente
+   Diseño móvil-primero, limpio y espaciado
+   ============================================================ */
+
+:root {
+    --sidebar-w: 260px;
+    --purple:    #4a235a;
+    --purple2:   #9b59b6;
+    --lilac:     #f5eef8;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DESKTOP — sidebar fijo lateral
+   ═══════════════════════════════════════════════════════════ */
+@media (min-width: 992px) {
+    .sidebar { width:var(--sidebar-w); position:fixed; top:0; left:0; height:100vh; overflow-y:auto; z-index:1000; }
+    .main-content, main.main-content,
+    .form-wrapper, .dash-wrapper > main,
+    .cal-wrapper > main, .rep-wrapper > main,
+    .prof-wrapper > main, .cat-wrapper > main,
+    .det-wrapper > main {
+        margin-left: var(--sidebar-w) !important;
+        width: calc(100% - var(--sidebar-w)) !important;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MÓVIL & TABLET — sidebar top-bar con hamburguesa
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 991px) {
+
+    app-sidebar { display:block; position:sticky; top:0; z-index:1100; width:100%; }
+
+    .sidebar {
+        width:100% !important; height:auto !important;
+        position:static !important;
+        padding:10px 16px !important;
+        border-right:none !important;
+        border-bottom:2px solid #e8daef !important;
+        box-shadow:0 2px 10px rgba(74,35,90,.1);
+    }
+
+    .sidebar-header {
+        display:flex !important; align-items:center;
+        justify-content:space-between; margin-bottom:0 !important; width:100%;
+    }
+
+    /* Menú colapsado por defecto */
+    .sidebar .nav-menu { display:none !important; flex-direction:column !important; width:100%; margin-top:8px !important; gap:2px !important; }
+    .sidebar.nav-open .nav-menu { display:flex !important; }
+    .sidebar .nav-item { padding:10px 12px !important; border-radius:8px; margin-bottom:2px !important; }
+    .sidebar .nav-item a { font-size:.88rem; }
+    .sidebar > div:last-child { margin-top:8px !important; padding-top:8px !important; width:100%; }
+
+    /* Contenido principal sin margen */
+    .main-content, main.main-content,
+    .form-wrapper, .dash-wrapper > main,
+    .cal-wrapper > main, .rep-wrapper > main,
+    .prof-wrapper > main, .cat-wrapper > main,
+    .det-wrapper > main {
+        margin-left:0 !important; width:100% !important; padding:14px !important;
+    }
+
+    .dash-wrapper, .cal-wrapper, .rep-wrapper,
+    .prof-wrapper, .cat-wrapper, .det-wrapper { flex-direction:column !important; }
+}
+
+/* Botón hamburguesa */
+.btn-hamburguesa {
+    display:none;
+    background:var(--lilac); border:1.5px solid #e8daef;
+    border-radius:8px; padding:7px 12px;
+    cursor:pointer; color:var(--purple); font-size:1rem;
+    align-items:center; gap:6px; min-height:40px;
+}
+@media (max-width:991px) { .btn-hamburguesa { display:inline-flex; } }
+
+/* ═══════════════════════════════════════════════════════════
+   DASHBOARD
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width:991px) {
+    #clock-time { font-size:2rem !important; }
+    #clock-date { font-size:.75rem !important; }
+    .clock-card { padding:18px 20px !important; }
+    .metric-box .num { font-size:1.8rem; }
+    .metric-box { padding:16px; }
+    .bar-wrap { height:70px !important; }
+    .quick-btn { padding:14px 10px; }
+    .quick-btn i { font-size:1.3rem; }
+    .section-card { padding:16px; }
+}
+
+@media (max-width:480px) {
+    #clock-time { font-size:1.6rem !important; }
+    .metric-box .num { font-size:1.5rem; }
+    /* Métricas 2×2 */
+    .row.g-3 > .col-6.col-lg-3 { flex:0 0 50%; max-width:50%; }
+    /* Accesos rápidos 2×2 */
+    .row.g-3 > .col-6.col-md-3 { flex:0 0 50%; max-width:50%; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   FORMULARIO NUEVA MINUTA
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width:991px) {
+    .form-wrapper { padding:12px !important; }
+    .paso1-header { flex-direction:column; gap:10px; }
+    .paso1-header .fields { flex-direction:column; gap:8px; width:100%; }
+    #btnSolicitarToken { width:100%; justify-content:center; }
+    .token-input { width:100% !important; font-size:1.5rem !important; letter-spacing:6px !important; }
+    .token-box .d-flex { flex-direction:column !important; align-items:stretch !important; gap:10px !important; }
+    #btnVerificarToken { width:100%; justify-content:center; }
+    .rec-bar { padding:12px 14px !important; gap:10px !important; }
+    #btnMic { width:44px !important; height:44px !important; font-size:1.1rem !important; }
+    .rec-btn { padding:6px 10px !important; font-size:.76rem !important; }
+}
+
+@media (max-width:576px) {
+    .form-wrapper { padding:10px !important; }
+    .section-card { padding:14px 12px; border-radius:12px; }
+    .section-title { font-size:.88rem; }
+    .mini-table { font-size:.8rem; }
+    .mini-table th { padding:7px 6px; font-size:.75rem; }
+    .mini-table td { padding:4px 5px; }
+    .mini-table input { padding:4px 6px; font-size:.82rem; }
+    /* Ocultar col descripción en tabla temas */
+    .mini-table#tablaTemas th:nth-child(3),
+    .mini-table#tablaTemas td:nth-child(3) { display:none; }
+    .btn-accion { width:100%; justify-content:center; padding:11px; }
+    h1.page-title { font-size:1.1rem !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SEGUIMIENTO
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width:991px) {
+    /* Ocultar columna departamento */
+    .table th:nth-child(3),
+    .table td:nth-child(3) { display:none; }
+}
+@media (max-width:576px) {
+    /* Ocultar también fecha */
+    .table th:nth-child(4),
+    .table td:nth-child(4) { display:none; }
+    /* Cards compactas de métrica */
+    #total-tareas, #pendientes-tareas, #completadas-tareas { font-size:1.4rem; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CALENDARIO
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width:991px) {
+    .cal-header { flex-direction:column !important; gap:10px !important; padding:12px !important; }
+    .cal-header > div:last-child { width:100%; justify-content:space-between; }
+    .cal-grid { gap:3px !important; }
+    .cal-day { min-height:56px !important; padding:4px 3px !important; }
+    .day-header { font-size:.65rem !important; padding:6px 2px !important; }
+    .day-num { font-size:.7rem !important; }
+    .task-pill { font-size:.62rem !important; padding:1px 4px !important; }
+    .today-badge { width:20px; height:20px; font-size:.72rem; }
+}
+@media (max-width:480px) {
+    .cal-day { min-height:44px !important; }
+    /* Solo punto indicador en vez de texto */
+    .task-pill { display:none; }
+    .cal-day:has(.task-pill)::after {
+        content:''; display:block; width:6px; height:6px;
+        background:var(--purple2); border-radius:50%; margin:2px auto 0;
+    }
+    .day-header { font-size:.6rem !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   REPORTES / HISTORIAL
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width:991px) {
+    .top-card { flex-direction:column !important; gap:12px !important; align-items:flex-start !important; }
+    .top-card .d-flex { flex-wrap:wrap; gap:8px; width:100%; }
+    .metric-pill { padding:10px 16px !important; }
+    .metric-pill .num { font-size:1.4rem !important; }
+    /* Filtros en columna */
+    .table-card .row.g-2 > * { flex:0 0 100% !important; max-width:100% !important; }
+    /* Ocultar columna Tipo */
+    .table th:nth-child(5), .table td:nth-child(5) { display:none; }
+    .btn-icon { width:28px !important; height:28px !important; }
+}
+@media (max-width:576px) {
+    /* Ocultar Área */
+    .table th:nth-child(3), .table td:nth-child(3) { display:none; }
+    .id-badge { font-size:.72rem !important; padding:2px 7px !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CATÁLOGO DE USUARIOS
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width:991px) {
+    .catalogo-grid { gap:12px !important; justify-content:center !important; }
+    .user-card-cat { width:155px !important; padding:14px 10px !important; }
+    .avatar-cat { width:68px !important; height:68px !important; margin-bottom:8px !important; }
+}
+@media (max-width:400px) {
+    .user-card-cat { width:calc(50% - 8px) !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PERFIL DE USUARIO
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width:991px) {
+    .profile-card { flex-direction:column !important; }
+    .left-panel { width:100% !important; padding:24px 20px !important; border-radius:16px 16px 0 0 !important; }
+    .right-panel { padding:18px 16px !important; }
+    .stat-box .n { font-size:1.3rem; }
+    .action-row { flex-direction:column !important; gap:10px !important; }
+    .btn-del-prof { width:100%; }
+    .avatar-ring { width:100px !important; height:100px !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DETALLE DE TAREA
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width:767px) {
+    .row.g-4 > .col-md-8,
+    .row.g-4 > .col-md-4 { flex:0 0 100% !important; max-width:100% !important; }
+    .estado-btn { padding:13px !important; font-size:.88rem !important; }
+    .info-box { padding:10px 12px; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   FIRMA DE MINUTA
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width:576px) {
+    .firma-card { border-radius:0 !important; min-height:100vh; }
+    .card-header-firma { padding:16px !important; }
+    .card-body-firma { padding:16px !important; }
+    .steps::before { left:16%; right:16%; }
+    .token-display { font-size:1.6rem; letter-spacing:4px; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   NUEVO USUARIO
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width:767px) {
+    .col-md-6, .col-md-4, .col-md-3 {
+        flex:0 0 100% !important; max-width:100% !important;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   UTILIDADES GLOBALES MÓVIL
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width:576px) {
+    /* Tipografía base */
+    body { font-size:14px; }
+
+    /* Tarjetas */
+    .section-card, .detail-card { border-radius:12px; }
+
+    /* Botones pill */
+    .btn.rounded-pill { padding:8px 16px !important; font-size:.84rem !important; }
+
+    /* Badges */
+    .badge { font-size:.7rem !important; }
+
+    /* Espaciado entre secciones */
+    .mb-4 { margin-bottom:1rem !important; }
+
+    /* Inputs más fáciles de tocar */
+    .form-control, .form-select {
+        min-height:42px;
+        font-size:.88rem !important;
+    }
+}
+
+/* Touch targets mínimo 44px */
+@media (max-width:991px) {
+    .btn-ver, .btn-nav, .btn-icon, .btn-save-tel,
+    .estado-btn, .nav-item a, .btn-accion,
+    .btn-hamburguesa { min-height:44px; }
+    .nav-item a { display:flex; align-items:center; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PRINT
+   ═══════════════════════════════════════════════════════════ */
+@media print {
+    .sidebar, app-sidebar, .btn-hamburguesa,
+    .btn-accion, #bloqueoOverlay { display:none !important; }
+    .main-content { margin-left:0 !important; width:100% !important; }
+}

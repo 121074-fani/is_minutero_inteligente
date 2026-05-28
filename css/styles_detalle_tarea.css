@@ -1,0 +1,50 @@
+body {
+    background-color: #ffffff !important;
+}
+
+.main-content {
+    padding: 40px;
+    min-height: 100vh;
+}
+
+.detail-card {
+    border-radius: 15px;
+    background: white;
+}
+
+.action-card {
+    border-radius: 15px;
+    background: white;
+}
+
+.info-box {
+    background-color: #f5eef8;
+    border-left: 4px solid #9b59b6;
+    transition: transform 0.2s ease;
+}
+
+.info-box:hover {
+    transform: translateY(-2px);
+    background-color: #f1f3f5;
+}
+
+.badge-pendiente {
+    background-color: #ffc107;
+    color: #000;
+    font-size: 0.9rem;
+    padding: 8px 12px;
+}
+
+.badge-completada {
+    background-color: #198754;
+    color: #fff;
+    font-size: 0.9rem;
+    padding: 8px 12px;
+}
+
+@media (max-width: 991px) {
+    .main-content {
+        margin-left: 0;
+        padding: 20px;
+    }
+}

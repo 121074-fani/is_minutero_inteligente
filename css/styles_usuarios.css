@@ -1,0 +1,116 @@
+        :root {
+            --primary-bg: #ffffff;
+            --accent-gradient: linear-gradient(90deg, #9b59b6, #c39bd3);
+            --text-main: #4a235a;
+            --text-muted: #636e72;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--primary-bg) !important;
+            margin: 0;
+            display: flex;
+        }
+
+        /* --- Contenedor Principal --- */
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- Tarjeta Estilo Imagen --- */
+        .user-card {
+            background: white;
+            width: 850px;
+            height: 550px;
+            border-radius: 30px;
+            display: flex;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        /* Lado Izquierdo (Perfil) */
+        .left-panel {
+            width: 40%;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-right: 1px solid #f1f1f1;
+        }
+
+        .avatar-container {
+            width: 140px;
+            height: 140px;
+            margin-bottom: 20px;
+        }
+        .avatar-container img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-name { font-size: 1.8rem; font-weight: 500; color: var(--text-main); margin-bottom: 5px; }
+        .user-role { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
+        
+        .divider { width: 80%; height: 1px; background: #eee; margin: 20px 0; }
+
+        .data-list { width: 100%; text-align: left; margin-bottom: 30px; }
+        .data-item { margin-bottom: 12px; font-size: 0.95rem; }
+        .data-item strong { color: var(--text-main); margin-right: 8px; }
+
+        .btn-back {
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s;
+        }
+        .btn-back:hover { transform: scale(1.02); }
+
+        /* Lado Derecho (Actividad/Botones) */
+        .right-panel {
+            width: 60%;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .panel-header h3 { color: var(--text-main); }
+        .status-tag { color: var(--text-muted); font-size: 0.8rem; }
+
+        .action-group {
+            margin-top: auto;
+            display: flex;
+            gap: 15px;
+        }
+        .btn-action {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+        .btn-edit { background: #f5eef8; color: #8e44ad; }
+        .btn-edit:hover { background: #e8daef; }
+        .btn-delete { background: #ffebee; color: #d32f2f; }
+        .btn-delete:hover { background: #ffcdd2; }

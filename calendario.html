@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario - Minutero Inteligente</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/side-bar.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <script src="js/sidebar.js"></script>
+    <style>
+        body { background:#f5eef8; font-family:'Segoe UI',sans-serif; }
+        .cal-wrapper { display:flex; min-height:100vh; }
+        .main-content { flex:1; margin-left:260px; padding:28px; }
+        .cal-header {
+            background:white; border-radius:16px; padding:18px 24px;
+            display:flex; align-items:center; justify-content:space-between;
+            box-shadow:0 2px 10px rgba(0,0,0,0.06); margin-bottom:20px;
+        }
+        .cal-title { font-size:1.3rem; font-weight:700; color:#4a235a; min-width:200px; text-align:center; }
+        .btn-nav {
+            width:36px; height:36px; border-radius:50%; border:2px solid #e8daef;
+            background:white; color:#9b59b6; cursor:pointer; display:flex;
+            align-items:center; justify-content:center; transition:all .2s;
+        }
+        .btn-nav:hover { background:#9b59b6; color:white; border-color:#9b59b6; }
+        /* Grid 7 cols */
+        .cal-grid {
+            display:grid; grid-template-columns:repeat(7,1fr); gap:6px;
+        }
+        .day-header {
+            background:#4a235a; color:white; text-align:center;
+            padding:10px 4px; border-radius:8px; font-size:.78rem;
+            font-weight:600; letter-spacing:.5px;
+        }
+        .cal-day {
+            background:white; border-radius:10px; min-height:90px;
+            padding:8px; position:relative;
+            box-shadow:0 1px 4px rgba(0,0,0,0.05);
+            transition:box-shadow .2s;
+        }
+        .cal-day:hover { box-shadow:0 4px 12px rgba(155,89,182,.2); }
+        .cal-day.empty { background:transparent; box-shadow:none; }
+        .cal-day.today { border:2px solid #9b59b6; }
+        .cal-day.feriado { background:#fef9e7; }
+        .day-num {
+            font-size:.8rem; font-weight:600; color:#888;
+            margin-bottom:4px; display:block;
+        }
+        .cal-day.today .day-num { color:#9b59b6; font-size:.95rem; }
+        .today-badge {
+            background:#9b59b6; color:white; border-radius:50%;
+            width:22px; height:22px; display:inline-flex; align-items:center;
+            justify-content:center; font-size:.8rem; font-weight:700;
+        }
+        .task-pill {
+            font-size:.7rem; padding:2px 7px; border-radius:20px;
+            margin-bottom:3px; cursor:pointer; white-space:nowrap;
+            overflow:hidden; text-overflow:ellipsis; max-width:100%;
+            display:block; transition:opacity .2s;
+        }
+        .task-pill:hover { opacity:.8; }
+        .task-pill.pendiente  { background:#fef3cd; color:#856404; }
+        .task-pill.completada { background:#d1e7dd; color:#0f5132; }
+        .task-pill.en_progreso{ background:#cff4fc; color:#055160; }
+        .feriado-label { font-size:.65rem; color:#e67e22; font-weight:600; }
+        @media(max-width:991px){
+            .main-content{ margin-left:0; padding:12px; }
+            .cal-grid{ grid-template-columns:repeat(7,1fr); gap:3px; }
+            .cal-day{ min-height:60px; padding:4px; }
+        }
+    </style>
+</head>
+<body>
+<div class="cal-wrapper">
+    <app-sidebar></app-sidebar>
+    <main class="main-content">
+
+        <div class="cal-header">
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn-nav" id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+                <div class="cal-title" id="currentMonth"></div>
+                <button class="btn-nav" id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <span id="legend-hoy" style="font-size:.8rem;color:#9b59b6;font-weight:600;">
+                    <span style="display:inline-block;width:12px;height:12px;background:#9b59b6;border-radius:50%;margin-right:4px;"></span>Hoy
+                </span>
+                <span style="font-size:.8rem;color:#e67e22;font-weight:600;">
+                    <span style="display:inline-block;width:12px;height:12px;background:#fef9e7;border:1px solid #e67e22;border-radius:3px;margin-right:4px;"></span>Feriado
+                </span>
+                <button class="btn btn-primary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#modalTarea"
+                        style="background:#9b59b6;border:none;">
+                    <i class="fas fa-plus me-2"></i>Nueva Actividad
+                </button>
+            </div>
+        </div>
+
+        <!-- Días de la semana -->
+        <div class="cal-grid mb-2">
+            <div class="day-header">LUN</div><div class="day-header">MAR</div>
+            <div class="day-header">MIÉ</div><div class="day-header">JUE</div>
+            <div class="day-header">VIE</div><div class="day-header">SÁB</div>
+            <div class="day-header">DOM</div>
+        </div>
+
+        <div class="cal-grid" id="calendarGrid"></div>
+
+    </main>
+</div>
+
+<!-- Modal nueva tarea -->
+<div class="modal fade" id="modalTarea" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header text-white" style="background:#9b59b6;">
+                <h5 class="modal-title"><i class="fas fa-calendar-plus me-2"></i>Programar Actividad</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">¿Qué se debe hacer?</label>
+                    <input type="text" class="form-control" id="tituloTarea" placeholder="Ej: Revisión de avances" required>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Responsable</label>
+                        <input type="text" class="form-control" id="responsableTarea" placeholder="Nombre del responsable">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Departamento</label>
+                        <select class="form-select" id="departamentoTarea">
+                            <option value="TI">TI</option>
+                            <option value="Ventas">Ventas</option>
+                            <option value="Administración">Administración</option>
+                            <option value="Dirección General">Dirección General</option>
+                            <option value="Recursos Humanos">Recursos Humanos</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Fecha</label>
+                    <input type="date" class="form-control" id="fechaTarea" required>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-light rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn rounded-pill px-4" onclick="guardarTarea()"
+                        style="background:#9b59b6;color:white;border:none;">
+                    <i class="fas fa-save me-2"></i>Guardar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/script_calendario.js"></script>
+</body>
+</html>

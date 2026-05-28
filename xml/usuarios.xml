@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archivo_minutas>
+  <historial>
+
+        <minuta>
+            <id>MIN-001</id>
+            <fecha>2024-05-15</fecha>
+            <departamento>Dirección General</departamento>
+            <titulo>Junta Estratégica Q1</titulo>
+        </minuta>
+
+        <minuta>
+            <id>MIN-002</id>
+            <fecha>2024-06-20</fecha>
+            <departamento>TI</departamento>
+            <titulo>Revisión de infraestructura tecnológica</titulo>
+        </minuta>
+
+    </historial>
+
+    <personal>
+
+        <redactor>Juan Pérez</redactor>
+        <lider>Ana García</lider>
+        <responsable>Carlos Ruiz</responsable>
+
+    </personal>
+
+   <usuarios>
+        <usuario>
+            <rfc>PEPJ800101ABC</rfc>
+            <curp>PEPJ800101HDFRRN09</curp>
+            <nombre>Juan</nombre>
+            <apellido_paterno>Pérez</apellido_paterno>
+            <apellido_materno>Jiménez</apellido_materno>
+            <direccion>
+                <calle>Av. Reforma</calle>
+                <numero>123</numero>
+                <ciudad>Ciudad de México</ciudad>
+                <estado>CDMX</estado>
+                <codigo_postal>06000</codigo_postal>
+            </direccion>
+            <telefono>5512345678</telefono>
+            <fecha_nacimiento>1980-01-01</fecha_nacimiento>
+        </usuario>
+
+        <usuario>
+            <rfc>GARA900202DEF</rfc>
+            <curp>GARA900202MDFLNN05</curp>
+            <nombre>Ana</nombre>
+            <apellido_paterno>García</apellido_paterno>
+            <apellido_materno>López</apellido_materno>
+            <direccion>
+                <calle>Av. Juárez</calle>
+                <numero>45</numero>
+                <ciudad>Guadalajara</ciudad>
+                <estado>Jalisco</estado>
+                <codigo_postal>44100</codigo_postal>
+            </direccion>
+            <telefono>3312345678</telefono>
+            <fecha_nacimiento>1990-02-02</fecha_nacimiento>
+        </usuario>
+
+    </usuarios>
+    
+    <formulario_simulado>
+
+        <texto>Nombre de ejemplo</texto>
+        <email>usuario@correo.com</email>
+        <password>clave123</password>
+        <radio>Opción Seleccionada</radio>
+        <checkbox>Aceptado</checkbox>
+        <select>Categoría A</select>
+        <textarea>Este es un texto de prueba para el campo textarea.</textarea>
+
+    </formulario_simulado>
+
+</archivo_minutas>

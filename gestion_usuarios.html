@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Usuarios - Minutero</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/side-bar.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <script src="js/sidebar.js"></script>
+    <style>
+        body { background:#f5eef8; font-family:'Segoe UI',sans-serif; }
+        .cat-wrapper { display:flex; min-height:100vh; }
+        .main-content { flex:1; margin-left:260px; padding:30px; }
+        .catalogo-grid { display:flex; flex-wrap:wrap; gap:22px; padding:10px 0 30px; }
+        /* Tarjeta normal */
+        .user-card-cat {
+            width:210px; background:white; border-radius:16px; padding:22px 16px;
+            text-align:center; box-shadow:0 2px 10px rgba(0,0,0,.07);
+            transition:transform .2s; position:relative;
+        }
+        .user-card-cat:hover { transform:translateY(-4px); }
+        .avatar-cat { width:86px; height:86px; border-radius:50%; object-fit:cover; margin-bottom:10px; border:3px solid #e8daef; }
+        .badge-rol { font-size:.73rem; padding:3px 10px; border-radius:20px; background:#f5eef8; color:#8e44ad; margin-bottom:12px; display:inline-block; }
+        .btn-ver { background:#9b59b6; color:white; border:none; padding:7px 18px; border-radius:20px; text-decoration:none; font-size:.83rem; transition:background .2s; cursor:pointer; }
+        .btn-ver:hover { background:#8e44ad; color:white; }
+        /* ── TARJETA SESIÓN ACTIVA ── */
+        .user-card-cat.es-sesion {
+            border:2px solid #e74c3c;
+            box-shadow:0 4px 18px rgba(231,76,60,.2);
+        }
+        .yo-badge {
+            position:absolute; top:-10px; left:50%; transform:translateX(-50%);
+            background:#e74c3c; color:white; font-size:.72rem; font-weight:700;
+            padding:3px 12px; border-radius:20px; white-space:nowrap;
+            box-shadow:0 2px 8px rgba(231,76,60,.4);
+        }
+        .avatar-sesion { border-color:#e74c3c !important; }
+        .text-sesion   { color:#c0392b !important; }
+        .badge-sesion  { background:#fdecea !important; color:#c0392b !important; font-weight:700; }
+        .btn-ver-sesion{ background:#e74c3c !important; }
+        .btn-ver-sesion:hover { background:#c0392b !important; }
+        @media(max-width:991px){ .main-content{ margin-left:0; padding:14px; } }
+    </style>
+</head>
+<body>
+<div class="cat-wrapper">
+    <app-sidebar></app-sidebar>
+    <main class="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h2 class="fw-bold mb-0" style="color:#4a235a;">
+                    <i class="fas fa-users me-2" style="color:#9b59b6;"></i>Catálogo de Usuarios
+                </h2>
+                <p class="text-muted small mb-0" id="subtitulo">Cargando...</p>
+            </div>
+            <a href="nuevo_usuario.html" class="btn rounded-pill px-4 shadow-sm fw-bold"
+               style="background:#9b59b6;color:white;border:none;">
+                <i class="fas fa-user-plus me-2"></i>Nuevo Usuario
+            </a>
+        </div>
+
+        <div class="mb-3" style="max-width:340px;">
+            <div class="input-group">
+                <span class="input-group-text bg-white" style="border-color:#e8daef;">
+                    <i class="fas fa-search text-muted"></i>
+                </span>
+                <input type="text" class="form-control" id="buscador"
+                       placeholder="Buscar por nombre, RFC o rol..."
+                       style="border-color:#e8daef;">
+            </div>
+        </div>
+
+        <div id="catalogoGrid" class="catalogo-grid"></div>
+
+        <div id="sinUsuarios" style="display:none;" class="text-center py-5 text-muted">
+            <i class="fas fa-user-slash fa-3x mb-3" style="color:#e8daef;"></i>
+            <p>No hay usuarios registrados aún.</p>
+            <a href="nuevo_usuario.html" class="btn rounded-pill px-4" style="background:#9b59b6;color:white;border:none;">
+                Agregar el primero
+            </a>
+        </div>
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/script_catalogo.js"></script>
+</body>
+</html>

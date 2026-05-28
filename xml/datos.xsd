@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Elemento raiz -->
+    <xs:element name="minutas">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="minuta" maxOccurs="unbounded">
+                    <xs:complexType>
+
+                        <xs:sequence>
+
+                            <!-- Datos de la reunion -->
+                            <xs:element name="datos_reunion">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="lugar" type="xs:string"/>
+                                        <xs:element name="fecha" type="xs:date"/>
+                                        <xs:element name="hora_inicio" type="xs:string"/>
+                                        <xs:element name="correo_responsable" type="xs:string"/>
+                                        <xs:element name="tipo_reunion" type="xs:string"/>
+                                        <xs:element name="area_participante" type="xs:string"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+
+                            <!-- Temas tratados -->
+                            <xs:element name="temas_tratados">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="tema" maxOccurs="unbounded">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="titulo" type="xs:string"/>
+                                                    <xs:element name="descripcion" type="xs:string"/>
+                                                </xs:sequence>
+                                                <xs:attribute name="id" type="xs:integer" use="required"/>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+
+                            <!-- Acuerdos -->
+                            <xs:element name="acuerdos">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="acuerdo" maxOccurs="unbounded">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="responsable" type="xs:string"/>
+                                                    <xs:element name="actividad" type="xs:string"/>
+                                                    <xs:element name="fecha_compromiso" type="xs:date"/>
+                                                </xs:sequence>
+                                                <xs:attribute name="id" type="xs:integer" use="required"/>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+
+                            <!-- proxima reunión -->
+                            <xs:element name="proxima_reunion">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="fecha" type="xs:date"/>
+                                        <xs:element name="hora" type="xs:string"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+
+                        </xs:sequence>
+
+                        <!-- atributo de la minuta -->
+                        <xs:attribute name="id" type="xs:integer" use="required"/>
+
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Minutas - Minutero Inteligente</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/side-bar.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <script src="js/sidebar.js"></script>
+    <style>
+        body { background:#f5eef8; font-family:'Segoe UI',sans-serif; }
+        .rep-wrapper { display:flex; min-height:100vh; }
+        .main-content { flex:1; margin-left:260px; padding:30px; }
+        .top-card {
+            background:white; border-radius:16px; padding:22px 28px;
+            box-shadow:0 2px 10px rgba(0,0,0,0.06); margin-bottom:20px;
+            display:flex; justify-content:space-between; align-items:center;
+        }
+        .metric-pill {
+            background:#f5eef8; border-radius:12px; padding:14px 24px;
+            text-align:center;
+        }
+        .metric-pill .num { font-size:1.8rem; font-weight:700; color:#4a235a; }
+        .metric-pill .lbl { font-size:.78rem; color:#888; text-transform:uppercase; }
+        .table-card { background:white; border-radius:16px; padding:24px; box-shadow:0 2px 10px rgba(0,0,0,0.06); }
+        .search-bar {
+            background:#f5eef8; border:none; border-radius:10px;
+            padding:10px 16px; font-size:.9rem; width:100%;
+        }
+        .search-bar:focus { outline:2px solid #9b59b6; background:white; }
+        .id-badge {
+            background:#f5eef8; color:#8e44ad; font-family:monospace;
+            font-size:.82rem; padding:3px 10px; border-radius:20px;
+        }
+        .table th { color:#aaa; font-size:.78rem; text-transform:uppercase; font-weight:600; border-bottom:2px solid #f5eef8; }
+        .table td { vertical-align:middle; border-bottom:1px solid #f9f5fc; }
+        .table tbody tr:hover { background:#faf5ff; }
+        .btn-icon {
+            width:32px; height:32px; border-radius:50%; border:none;
+            display:inline-flex; align-items:center; justify-content:center;
+            cursor:pointer; transition:all .2s; margin-right:4px;
+        }
+        .btn-icon.view   { background:#f5eef8; color:#9b59b6; }
+        .btn-icon.pdf    { background:#e8f8f0; color:#27ae60; }
+        .btn-icon:hover  { transform:scale(1.1); }
+        @media(max-width:991px){ .main-content{ margin-left:0; padding:14px; } }
+    </style>
+</head>
+<body>
+<div class="rep-wrapper">
+    <app-sidebar></app-sidebar>
+    <main class="main-content">
+
+        <div class="top-card">
+            <div>
+                <h2 class="fw-bold mb-1" style="color:#4a235a;">
+                    <i class="fas fa-file-contract me-2" style="color:#9b59b6;"></i>Historial de Minutas
+                </h2>
+                <p class="text-muted mb-0" style="font-size:.88rem;" id="rep-subtitulo">Visualiza y descarga los reportes generados</p>
+            </div>
+            <div class="d-flex gap-3 align-items-center">
+                <div class="metric-pill">
+                    <div class="num" id="total-minutas">0</div>
+                    <div class="lbl">Total Minutas</div>
+                </div>
+                <a href="formulario.html" class="btn rounded-pill px-4 fw-bold shadow-sm" id="btnNuevaMinuta"
+                   style="background:#9b59b6;color:white;border:none;">
+                    <i class="fas fa-plus me-2"></i>Nueva Minuta
+                </a>
+            </div>
+        </div>
+
+        <div class="table-card">
+            <!-- Filtros -->
+            <div class="row g-2 mb-4">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text" style="background:#f5eef8;border:none;border-radius:10px 0 0 10px;">
+                            <i class="fas fa-search text-muted"></i>
+                        </span>
+                        <input type="text" class="search-bar" id="buscador"
+                               placeholder="Buscar por título, ID o departamento..."
+                               style="border-radius:0 10px 10px 0;">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" id="filtroDepto"
+                            style="border-radius:10px;border-color:#e8daef;background:#f5eef8;">
+                        <option value="">Todos los Departamentos</option>
+                        <option>Dirección General</option>
+                        <option>TI</option>
+                        <option>Recursos Humanos</option>
+                        <option>Ventas</option>
+                        <option>Administración</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <input type="date" class="form-control" id="filtroFecha"
+                           style="border-radius:10px;border-color:#e8daef;background:#f5eef8;">
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Lugar / Reunión</th>
+                            <th>Área</th>
+                            <th>Fecha</th>
+                            <th>Tipo</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaMinutas">
+                        <tr><td colspan="6" class="text-center text-muted py-4">Cargando...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Paginación -->
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <span class="text-muted small" id="pag-info">—</span>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-sm rounded-pill" id="btnAnterior"
+                            style="background:#f5eef8;color:#9b59b6;border:none;" disabled>Anterior</button>
+                    <button class="btn btn-sm rounded-pill" id="btnSiguiente"
+                            style="background:#f5eef8;color:#9b59b6;border:none;" disabled>Siguiente</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+<script src="js/script_reportes.js"></script>
+</body>
+</html>

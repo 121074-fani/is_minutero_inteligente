@@ -1,0 +1,97 @@
+        :root {
+            --bg-color: #ffffff;
+            --card-bg: #ffffff;
+            --accent-blue: #f5eef8;
+            --text-main: #4a235a;
+            --text-muted: #777777;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color) !important;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .avatar-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-blue);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .avatar-img {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            z-index: 2;
+        }
+
+        .user-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 10px 0 5px 0;
+        }
+
+        .user-role {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0;
+        }
+                
+        .btn-detalles {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #9b59b6;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-detalles:hover {
+            background-color: #8e44ad;
+        }

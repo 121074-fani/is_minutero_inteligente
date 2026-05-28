@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Tarea - Minutero</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/side-bar.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <script src="js/sidebar.js"></script>
+    <style>
+        body { background:#f5eef8; font-family:'Segoe UI',sans-serif; }
+        .det-wrapper { display:flex; min-height:100vh; }
+        .main-content { flex:1; margin-left:260px; padding:30px; }
+        .detail-card  { background:white; border-radius:16px; padding:28px; box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+        .info-box     { background:#f9f5fc; border-left:4px solid #9b59b6; border-radius:8px; padding:14px; }
+        /* Botones de estado */
+        .estado-btn {
+            flex:1; padding:12px 8px; border-radius:12px; border:2px solid transparent;
+            font-weight:600; font-size:.88rem; cursor:pointer; transition:all .2s;
+            display:flex; align-items:center; justify-content:center; gap:6px;
+        }
+        .estado-btn.pendiente   { background:#fef3cd; color:#856404; border-color:#ffc107; }
+        .estado-btn.en_progreso { background:#cff4fc; color:#055160; border-color:#0dcaf0; }
+        .estado-btn.completada  { background:#d1e7dd; color:#0f5132; border-color:#198754; }
+        .estado-btn.active      { transform:scale(1.04); box-shadow:0 4px 12px rgba(0,0,0,0.12); }
+        .estado-btn:hover:not(.active) { opacity:.8; }
+        @media(max-width:991px){ .main-content{ margin-left:0; padding:14px; } }
+    </style>
+</head>
+<body>
+<div class="det-wrapper">
+    <app-sidebar></app-sidebar>
+    <main class="main-content">
+
+        <div class="d-flex align-items-center gap-3 mb-4">
+            <button onclick="window.location.href='seguimiento.html'"
+                    style="background:#f5eef8;border:none;border-radius:50%;width:38px;height:38px;color:#9b59b6;cursor:pointer;">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h2 class="fw-bold mb-0" style="color:#4a235a;">Detalle de Actividad</h2>
+            <span class="badge rounded-pill" id="dt-estado" style="font-size:.85rem;">—</span>
+        </div>
+
+        <div class="row g-4">
+            <!-- Info principal -->
+            <div class="col-md-8">
+                <div class="detail-card">
+                    <h3 class="fw-bold mb-1" id="dt-titulo" style="color:#4a235a;">Cargando...</h3>
+                    <p class="text-muted mb-4" style="font-size:.88rem;" id="dt-descripcion">—</p>
+                    <hr style="border-color:#f5eef8;">
+                    <div class="row g-3 mt-1">
+                        <div class="col-sm-6">
+                            <div class="info-box">
+                                <div class="text-muted small fw-bold text-uppercase mb-1">
+                                    <i class="fas fa-user me-1" style="color:#9b59b6;"></i>Responsable
+                                </div>
+                                <div class="fw-semibold" id="dt-responsable">—</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="info-box">
+                                <div class="text-muted small fw-bold text-uppercase mb-1">
+                                    <i class="fas fa-building me-1" style="color:#9b59b6;"></i>Departamento
+                                </div>
+                                <div class="fw-semibold" id="dt-departamento">—</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="info-box">
+                                <div class="text-muted small fw-bold text-uppercase mb-1">
+                                    <i class="fas fa-calendar-alt me-1" style="color:#9b59b6;"></i>Fecha Límite
+                                </div>
+                                <div class="fw-semibold" id="dt-fecha">—</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="info-box">
+                                <div class="text-muted small fw-bold text-uppercase mb-1">
+                                    <i class="fas fa-hashtag me-1" style="color:#9b59b6;"></i>ID Tarea
+                                </div>
+                                <div class="fw-semibold text-muted" id="dt-id">—</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel de acciones -->
+            <div class="col-md-4">
+                <div class="detail-card">
+                    <h5 class="fw-bold mb-3" style="color:#4a235a;">Cambiar Estado</h5>
+                    <p class="text-muted small mb-3">Selecciona el estado actual de esta tarea:</p>
+
+                    <div class="d-flex flex-column gap-2 mb-4">
+                        <button class="estado-btn pendiente"   id="btn-pendiente"   onclick="cambiarEstado('pendiente')">
+                            <i class="fas fa-clock"></i> Pendiente
+                        </button>
+                        <button class="estado-btn en_progreso" id="btn-en_progreso" onclick="cambiarEstado('en_progreso')">
+                            <i class="fas fa-spinner"></i> En Proceso
+                        </button>
+                        <button class="estado-btn completada"  id="btn-completada"  onclick="cambiarEstado('completada')">
+                            <i class="fas fa-check-circle"></i> Completada
+                        </button>
+                    </div>
+
+                    <hr style="border-color:#f5eef8;">
+
+                    <button class="btn w-100 rounded-pill fw-bold mt-2" id="btnEliminar"
+                            style="background:#fdecea;color:#e74c3c;border:none;">
+                        <i class="fas fa-trash-alt me-2"></i>Eliminar Tarea
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/script_detalle_tarea.js"></script>
+</body>
+</html>

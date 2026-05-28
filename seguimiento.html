@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguimiento de Actividades - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles_seguimiento.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <script src="js/sidebar.js"></script>
+</head>
+<body class="bg-light">
+
+    <div class="dashboard-wrapper">
+        <app-sidebar></app-sidebar>
+
+        <main class="main-content">
+            <header class="content-header">
+                <div>
+                    <h1 class="h3 fw-bold mb-0">Seguimiento de Tareas</h1>
+                    <p class="text-muted small">Estado de actividades según minuta actual</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-white shadow-sm me-2"><i class="fas fa-search"></i></button>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTarea">Nueva Tarea</button>
+                </div>
+            </header>
+
+            <div class="metrics-grid">
+                <div class="metric-card primary">
+                    <span class="small">Total de Tareas</span>
+                    <h2 id="total-tareas">0</h2>
+                    <span class="trend">+2.05% <i class="fas fa-arrow-up"></i></span>
+                </div>
+                <div class="metric-card">
+                    <span class="small">Pendientes</span>
+                    <h2 id="pendientes-tareas">0</h2>
+                    <span class="trend success">+12.4%</span>
+                </div>
+                <div class="metric-card">
+                    <span class="small">Completadas</span>
+                    <h2 id="completadas-tareas">0</h2>
+                    <span class="trend danger">-2.08%</span>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-12 mb-3">
+                    <div class="card shadow-sm border-0 p-3">
+                        <div class="row g-2 align-items-center">
+                            <div class="col-md-3">
+                                <select class="form-select" id="filtroDepto">
+                                    <option value="">Todos los Deptos</option>
+                                    <option value="TI">TI</option>
+                                    <option value="Ventas">Ventas</option>
+                                    <option value="Administración">Administración</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select" id="filtroEmpleado">
+                                    <option value="">Todos los Empleados</option>
+                                    <option value="Juan">Juan Pérez</option>
+                                    <option value="Ana">Ana María</option>
+                                    <option value="Carlos">Carlos Ruiz</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="date" class="form-control" id="filtroFecha">
+                            </div>
+                            <div class="col-md-3 text-end">
+                                <button class="btn btn-outline-secondary w-100" id="btnLimpiarFiltros"><i class="fas fa-filter-circle-xmark me-2"></i>Limpiar Filtros</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card shadow-sm border-0 p-4 mb-4">
+                        <h5 class="fw-bold mb-4"><i class="fas fa-list-check me-2 text-primary"></i> Actividades Pendientes</h5>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Tarea</th>
+                                        <th>Responsable</th>
+                                        <th>Dpto.</th>
+                                        <th>Fecha</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tablaPendientes">
+                                    <!-- Contenido dinámico -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card shadow-sm border-0 p-4 side-card">
+                        <h5 class="fw-bold mb-4">Estadística por Área</h5>
+                        <div class="chart-simulacion">
+                            <div class="circle-chart"></div>
+                            <ul class="list-unstyled mt-3">
+                                <li><span class="dot ti"></span> TI</li>
+                                <li><span class="dot ventas"></span> Ventas</li>
+                                <li><span class="dot admin"></span> Admin</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="modal fade" id="modalTarea" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title font-weight-bold">Registrar Nueva Tarea</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="formNuevaTarea">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">¿Qué se debe hacer?</label>
+                            <input type="text" class="form-control" id="tituloTarea" placeholder="Ejem: Revisión de Base de Datos" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold">Responsable</label>
+                                <select class="form-select" id="responsableTarea">
+                                    <option value="Juan">Juan Pérez</option>
+                                    <option value="Ana">Ana María</option>
+                                    <option value="Carlos">Carlos Ruiz</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold">Departamento</label>
+                                <select class="form-select" id="departamentoTarea">
+                                    <option value="TI">TI</option>
+                                    <option value="Ventas">Ventas</option>
+                                    <option value="Administración">Administración</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold">Día Exacto</label>
+                                <input type="date" class="form-control" id="fechaTarea" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary px-4" onclick="guardarTarea()">Guardar Tarea</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/script_seguimiento.js"></script>
+</body>
+</html>

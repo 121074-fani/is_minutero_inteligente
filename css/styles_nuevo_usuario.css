@@ -1,0 +1,89 @@
+/* Premium styles for the New User Form */
+
+.form-wrapper {
+    max-width: 800px;
+    width: 100%;
+    border-radius: 20px !important;
+    border: none;
+    background: #ffffff;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05) !important;
+}
+
+.premium-input {
+    border-radius: 10px;
+    padding: 12px 15px;
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+    background-color: #f8f9fb;
+}
+
+.premium-input:focus {
+    background-color: #ffffff;
+    border-color: #9b59b6;
+    box-shadow: 0 0 0 0.25rem rgba(155, 89, 182, 0.25);
+}
+
+.premium-addon {
+    border-radius: 10px 0 0 10px;
+    background-color: #f8f9fb;
+    border: 1px solid #e0e0e0;
+    border-right: none;
+    color: #6c757d;
+}
+
+.input-group > .premium-input {
+    border-radius: 0 10px 10px 0;
+}
+
+.input-group > .premium-input:focus {
+    border-color: #9b59b6;
+    z-index: 3;
+}
+
+.input-group:focus-within .premium-addon {
+    border-color: #9b59b6;
+    color: #9b59b6;
+}
+
+.btn-custom {
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-primary.btn-custom {
+    background: linear-gradient(135deg, #c39bd3 0%, #9b59b6 100%);
+    border: none;
+}
+
+.btn-primary.btn-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(155, 89, 182, 0.4) !important;
+}
+
+.btn-light.btn-custom {
+    background: #f1f3f5;
+    border: 1px solid #e9ecef;
+    color: #495057;
+}
+
+.btn-light.btn-custom:hover {
+    background: #e9ecef;
+}
+
+.custom-alert {
+    border-radius: 10px;
+    border-left: 5px solid #28a745;
+    animation: slideInUp 0.5s ease forwards;
+}
+
+@keyframes slideInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.form-label {
+    color: #495057;
+    font-size: 0.95rem;
+}
